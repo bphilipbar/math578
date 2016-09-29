@@ -1,4 +1,6 @@
 #!/usr/bin/env python2.7
+# the equation is linear, but I use a nonlinear solver so that the code is more general!
+
 
 from numpy import *
 from scipy.optimize import newton_krylov   #our fancy non-linear system solver
@@ -13,8 +15,8 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 # Numerical Parameters
 Nx = 30  # NOT including the "fake" value on left
 Ny = 30  # NOT including the "fake" value on bottom
-Nt = 300
-tf = 0.28
+Nt = 1000
+tf = 1.01
 xf = 1.0
 yf = 1.0
 dx = xf/(Nx-1)
@@ -46,17 +48,33 @@ for i in range(Nx):
 
 
 def residual(input):
+
   output = zeros((Nx+1,Ny+1))
+
   # interior
-  output[1:Nx,1:Ny] = input[1:Nx,1:Ny] - rx/2*(input[0:Nx-1,1:Ny]+input[2:Nx+1,1:Ny]-2*input[1:Nx,1:Ny]) - ry*(input[1:Nx,0:Ny-1]+input[1:Nx,2:Ny+1]-2*input[1:Nx,1:Ny]) - RHS
-  # top
+  output[2:Nx,2:Ny] = input[2:Nx,2:Ny] - rx/2*(input[1:Nx-1,2:Ny]+input[3:Nx+1,2:Ny]-2*input[2:Nx,2:Ny]) - ry*(input[2:Nx,1:Ny-1]+input[2:Nx,3:Ny+1]-2*input[2:Nx,2:Ny]) - RHS
+
+  # almost left (equation changes for left BC)
+  output[1,2:Ny] = input[1,2:Ny] - rx/2*(input[2,2:Ny]+input[2,2:Ny]-2*input[1,2:Ny]) - ry*(input[1,1:Ny-1]+input[1,3:Ny+1]-2*input[1,2:Ny]) - RHSleft
+
+  # almost bottom (equation changes for bottom BC)
+  output[2:Nx,1] = input[2:Nx,1] - rx/2*(input[1:Nx-1,1]+input[3:Nx+1,1]-2*input[2:Nx,1]) - ry*(input[2:Nx,2]+input[2:Nx,2]-2*input[2:Nx,1]) - RHSbottom
+
+  # almost bottom left (equation changes for left and bottom BCs)
+  output[1,1] = input[1,1] - rx/2*(input[2,1]+input[2,1]-2*input[1,1]) - ry*(input[1,2]+input[1,2]-2*input[1,1]) - RHSbottomleft
+
+  # sets top BC
   output[:,Ny] = input[:,Ny] - top
-  # right (do NOT add the top right point so that it doesn't appear twice; does NOT matter)
+
+  # sets right BC (do NOT add the top right point so that it doesn't appear twice; does NOT matter)
   output[Nx,0:Ny] = input[Nx,0:Ny] - right
-  # bottom
+
+  # bottom (does NOT matter, but having all inputs appear seems wise)
   output[1:Nx,0] = input[1:Nx,0] - u[n,1:Nx,1]
-  # left
+
+  # left (does NOT matter, but having all inputs appear seems wise)
   output[0,1:Ny] = input[0,1:Ny] - u[n,1,1:Ny]
+
   # bottom left (does NOT matter, but having all inputs appear seems wise)
   output[0,0] = input[0,0] - 0
   return output
@@ -64,7 +82,10 @@ def residual(input):
 
 # Time Stepping
 for n in range(1,Nt):
-   RHS = u[n-1,1:Nx,1:Ny] + rx/2*(u[n-1,0:Nx-1,1:Ny]+u[n-1,2:Nx+1,1:Ny]-2*u[n-1,1:Nx,1:Ny]) + ry*(u[n-1,1:Nx,0:Ny-1]+u[n-1,1:Nx,2:Ny+1]-2*u[n-1,1:Nx,1:Ny])
+   RHS = u[n-1,2:Nx,2:Ny] + rx/2*(u[n-1,1:Nx-1,2:Ny]+u[n-1,3:Nx+1,2:Ny]-2*u[n-1,2:Nx,2:Ny]) + ry*(u[n-1,2:Nx,1:Ny-1]+u[n-1,2:Nx,3:Ny+1]-2*u[n-1,2:Nx,2:Ny])
+   RHSleft = u[n-1,1,2:Ny] + rx/2*(u[n-1,2,2:Ny]+u[n-1,2,2:Ny]-2*u[n-1,1,2:Ny]) + ry*(u[n-1,1,1:Ny-1]+u[n-1,1,3:Ny+1]-2*u[n-1,1,2:Ny])
+   RHSbottom = u[n-1,2:Nx,1] + rx/2*(u[n-1,1:Nx-1,1]+u[n-1,3:Nx+1,1]-2*u[n-1,2:Nx,1]) + ry*(u[n-1,2:Nx,2]+u[n-1,2:Nx,2]-2*u[n-1,2:Nx,1])
+   RHSbottomleft = u[n-1,1,1] + rx/2*(u[n-1,2,1]+u[n-1,2,1]-2*u[n-1,1,1]) + ry*(u[n-1,1,2]+u[n-1,1,2]-2*u[n-1,1,1])
    u[n] = newton_krylov(residual,zeros((Nx+1,Ny+1)))
 
 
@@ -76,7 +97,6 @@ y_arr = linspace(0,yf,Ny)
 X,Y = meshgrid(x_arr,y_arr)
 
 ti=0;
-#ti=round(Nt/30)-1;
 fig = plt.figure(1)
 ax = fig.gca(projection='3d')
 surf = ax.plot_surface(X, Y, transpose(u[ti,1:Nx+1,1:Ny+1]), rstride=1, cstride=1, cmap=cm.coolwarm,
@@ -85,8 +105,17 @@ fig.colorbar(surf)
 plt.xlabel('x')
 plt.ylabel('y')
 
-ti=Nt-1;
+ti=round(Nt/100)-1;
 fig = plt.figure(2)
+ax = fig.gca(projection='3d')
+surf = ax.plot_surface(X, Y, transpose(u[ti,1:Nx+1,1:Ny+1]), rstride=1, cstride=1, cmap=cm.coolwarm,
+                       linewidth=0.0, antialiased=False)
+fig.colorbar(surf)
+plt.xlabel('x')
+plt.ylabel('y')
+
+ti=Nt-1;
+fig = plt.figure(3)
 ax = fig.gca(projection='3d')
 surf = ax.plot_surface(X, Y, transpose(u[ti,1:Nx+1,1:Ny+1]), rstride=1, cstride=1, cmap=cm.coolwarm,
                        linewidth=0.0, antialiased=False)
