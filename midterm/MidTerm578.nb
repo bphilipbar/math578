@@ -1,0 +1,1075 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     32424,       1066]
+NotebookOptionsPosition[     30257,       1001]
+NotebookOutlinePosition[     30761,       1021]
+CellTagsIndexPosition[     30718,       1018]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["Numerical Solutions of Shallow Water Equations", \
+"Title",
+ FontFamily->"Arial",
+ FontColor->RGBColor[
+  0.00030518043793392844`, 0.3881132219424735, 0.]]], "Section",
+ CellChangeTimes->{{3.68736860364114*^9, 3.6873686206478777`*^9}, {
+  3.6873686697584248`*^9, 3.687368671590501*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma"],
+
+Cell[TextData[StyleBox["Math 578 * University of New Mexico * October 2016",
+ FontFamily->"Arial"]], "Text",
+ CellChangeTimes->{{3.687368584036193*^9, 3.687368585032782*^9}, {
+  3.687368674158476*^9, 3.687368745802541*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Students: Oleksii Beznosov & Brad Philipbar",
+ FontFamily->"Arial"]], "Text",
+ CellChangeTimes->{{3.687368584036193*^9, 3.687368585032782*^9}, {
+  3.687368674158476*^9, 3.687368780019552*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "\n",
+ StyleBox["Systems of Shallow Water Equations (SSWE) model the propagation of \
+disturbances in water and other incompressible fluids and are used to \
+describe the dynamics of important phenomenon. Models of the 2D type \
+constitute one of the widest classes of models studied in engineering. The \
+underlying assumption is that the depth of the fluid is small compared to the \
+wave length of the disturbance. Initially a look at conservation in the \
+absence of the Coriolis force will be describe. Specifying either periodic \
+boundary conditions, or free boundary conditions for h, and reflective \
+boundary conditions for uh and uv. ",
+  FontFamily->"Arial"]
+}], "Text",
+ CellChangeTimes->{{3.687368888169425*^9, 3.687368913576331*^9}, 
+   3.6873826743917303`*^9},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "\n",
+ StyleBox["Introduction: \nSystems of Shallow Water Equations (SSWE) model \
+the propagation of disturbances in water and other incompressible fluids and \
+are used to describe the dynamics of important phenomenon like tsunami.The \
+underlying assumption is that the depth of the fluid is small compared to the \
+wave length of the disturbance. The conservative form of the shallow water \
+equations is,",
+  FontFamily->"Arial"]
+}], "Text",
+ CellChangeTimes->{{3.6873689202120323`*^9, 3.6873689377524643`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[Cell[BoxData[{
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "h"}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "hu", ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "hv", ")"}]}], 
+     RowBox[{"\[PartialD]", "y"}]]}], "=", "0"}],
+  FontFamily->"Times New Roman",
+  FontSize->36], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "hu", ")"}]}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["hu", "2"], "+", 
+        RowBox[{
+         FractionBox["1", "2"], 
+         SuperscriptBox["gh", "2"]}]}], ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "huv", ")"}]}], 
+     RowBox[{"\[PartialD]", "y"}]]}], "=", 
+   RowBox[{"fhv", 
+    StyleBox[
+     RowBox[{
+      StyleBox[" ",
+       FontWeight->"Bold"], "                  "}]], 
+    RowBox[{"(", "1", ")"}]}]}],
+  FontFamily->"Times New Roman",
+  FontSize->36], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "hv", ")"}]}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", "huv", ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["hv", "2"], "+", 
+        RowBox[{
+         FractionBox["1", "2"], 
+         SuperscriptBox["gh", "2"]}]}], ")"}]}], 
+     RowBox[{"\[PartialD]", "y"}]]}], "=", 
+   RowBox[{"-", "fhu"}]}],
+  FontFamily->"Times New Roman",
+  FontSize->36]}],
+ FontFamily->"Arial",
+ FontSize->48]], "Text",
+ CellChangeTimes->{{3.687368971222224*^9, 3.687369152921855*^9}, {
+  3.6873692832324047`*^9, 3.687369321174074*^9}, {3.6873809844151163`*^9, 
+  3.6873810016279507`*^9}, {3.6873810355247803`*^9, 3.6873810374304028`*^9}, {
+  3.687381776057774*^9, 3.687381797936858*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Here h>0 is the fluid height, u and v are the \
+horizontal and vertical velocities, g is the acceleration due to gravity \
+(9.8m/s^2 on Earth) and f is the Coriolis force. We let",
+ FontFamily->"Arial"]], "Text",
+ CellChangeTimes->{{3.687369332464184*^9, 3.687369441951652*^9}, {
+  3.68736948308209*^9, 3.687369704280954*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{"U", "=", 
+    RowBox[{"(", GridBox[{
+       {"h"},
+       {
+        RowBox[{"hu", "\n", "hv"}]}
+      }], ")"}]}], ",", " ", 
+   RowBox[{
+    RowBox[{"F", 
+     RowBox[{"(", "U", ")"}]}], "=", 
+    RowBox[{"(", GridBox[{
+       {"hu"},
+       {
+        RowBox[{
+         SuperscriptBox["hu", "2"], "+", 
+         RowBox[{
+          FractionBox["1", "2"], 
+          SuperscriptBox["gh", "2"]}]}]},
+       {"huv"}
+      }], ")"}]}], ",", " ", 
+   RowBox[{
+    RowBox[{"G", 
+     RowBox[{"(", "U", ")"}]}], "=", 
+    RowBox[{"(", GridBox[{
+       {"hv"},
+       {"huv"},
+       {
+        RowBox[{
+         SuperscriptBox["hv", "2"], "+", 
+         RowBox[{
+          FractionBox["1", "2"], 
+          SuperscriptBox["hg", "2"]}]}]}
+      }], ")"}]}], ",", " ", 
+   RowBox[{
+    RowBox[{"S", 
+     RowBox[{"(", "u", ")"}]}], "=", 
+    RowBox[{"(", GridBox[{
+       {"0"},
+       {"fhv"},
+       {
+        RowBox[{"-", "fhu"}]}
+      }], ")"}]}]}]],
+  FontFamily->"Arial"],
+ StyleBox[",    (2)",
+  FontFamily->"Arial"]
+}], "Text",
+ CellChangeTimes->{{3.6873697156832037`*^9, 3.687369717487328*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["to rewrite the equations in compact form,", "Text",
+ CellChangeTimes->{{3.6873697472625437`*^9, 3.6873697493019123`*^9}, {
+  3.687369869000976*^9, 3.687369880712391*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "U"}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"\[PartialD]", "F"}], 
+      RowBox[{"(", "U", ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]], "+", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"\[PartialD]", "G"}], 
+      RowBox[{"(", "U", ")"}]}], 
+     RowBox[{"\[PartialD]", "y"}]]}], "=", 
+   RowBox[{"S", 
+    RowBox[{
+     RowBox[{"(", "U", ")"}], "."}]}]}]],
+  FontFamily->"Arial"],
+ StyleBox["\t\t\t\t(3)  ",
+  FontFamily->"Arial"]
+}], "Text",
+ CellChangeTimes->{{3.687369884585641*^9, 3.687369939988811*^9}, {
+  3.687369982282887*^9, 3.687369986722632*^9}, {3.6873729169397306`*^9, 
+  3.687372923924198*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["In the absense of the Coriolis force, we get the \
+standard form of the conservtion law.",
+ FontFamily->"Arial"]], "Text",
+ CellChangeTimes->{{3.687372757420333*^9, 3.6873727811707582`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "U"}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"\[PartialD]", "F"}], 
+      RowBox[{"(", "U", ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]], "+", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"\[PartialD]", "G"}], 
+      RowBox[{"(", "U", ")"}]}], 
+     RowBox[{"\[PartialD]", "y"}]]}], "=", "0."}]]],
+ "\t\t\t\t(4)"
+}], "Text",
+ CellChangeTimes->{{3.687372786738456*^9, 3.687372914923829*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["\<\
+We specify either periodic boundary condtions, or \[OpenCurlyDoubleQuote]free\
+\[CloseCurlyDoubleQuote] boundary conditions for h and \
+\[OpenCurlyDoubleQuote]reflective\[CloseCurlyDoubleQuote] boundary for uh and \
+uv. Free boundary conditions means the boundary exerts no stress while \
+reflective boundary conditions means the boundary behaves like a mirror.  \
+\>", "Text",
+ CellChangeTimes->{{3.687370028330106*^9, 3.6873700802062902`*^9}, {
+  3.6873701139649067`*^9, 3.687370181153792*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["\<\
+Discretization:
+We solve the shallow water equations using the Lax-Wendroff method and \
+Richmeyer\[CloseCurlyQuote]s two step method. The Lax-Wendroff shallow water \
+equations in 1D are, \
+\>", "Text",
+ CellChangeTimes->{{3.687370209144401*^9, 3.687370254614296*^9}, {
+  3.687370294332906*^9, 3.687370373960766*^9}, {3.687379467437936*^9, 
+  3.687379472050418*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "U"}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"\[PartialD]", "F"}], 
+      RowBox[{"(", "U", ")"}]}], 
+     RowBox[{"\[PartialD]", "x"}]]}], "=", "0."}]]],
+ "     (5)"
+}], "Text",
+ CellChangeTimes->{{3.687370378537921*^9, 3.6873703799770823`*^9}, {
+  3.687372710461418*^9, 3.6873727416300364`*^9}, {3.687372901063383*^9, 
+  3.6873729281001987`*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "where ",
+ Cell[BoxData[
+  RowBox[{"U", "=", 
+   SuperscriptBox[
+    RowBox[{"[", 
+     RowBox[{"h", ",", "hu"}], "]"}], "T"]}]]],
+ " and ",
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{"F", 
+    RowBox[{"(", "U", ")"}]}], "=", 
+   SuperscriptBox[
+    RowBox[{"[", 
+     RowBox[{"hu", ",", " ", 
+      RowBox[{
+       SuperscriptBox["hu", "2"], "+", 
+       RowBox[{
+        FractionBox["1", "2"], 
+        SuperscriptBox["gh", "2"]}]}]}], "]"}], "T"]}]]],
+ ". The Lax-Wendroff method for the system (5) is"
+}], "Text",
+ CellChangeTimes->{{3.6873729344345407`*^9, 3.687373036399561*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   SubsuperscriptBox["U", "i", 
+    RowBox[{"n", "+", "1"}]], "=", 
+   RowBox[{
+    SubsuperscriptBox["U", "i", "n"], "-", 
+    RowBox[{
+     FractionBox["\[CapitalDelta]t", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"I", "-", 
+          RowBox[{
+           FractionBox["\[CapitalDelta]t", "\[CapitalDelta]x"], 
+           SubsuperscriptBox["A", 
+            RowBox[{"i", "+", 
+             RowBox[{"1", "/", "2"}]}], "n"]}]}], ")"}], 
+        RowBox[{"(", 
+         RowBox[{
+          SubscriptBox["D", "+"], 
+          SubsuperscriptBox["F", "i", "n"]}], ")"}]}], "+", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"I", "+", 
+           RowBox[{
+            FractionBox["\[CapitalDelta]t", "\[CapitalDelta]x"], 
+            SubsuperscriptBox["A", 
+             RowBox[{"i", "-", 
+              RowBox[{"1", "/", "2"}]}], "n"]}]}], ")"}], 
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["D", "_"], 
+           SubsuperscriptBox["F", "i", "n"]}], ")"}]}], ")"}]}]}]}]}]}]]],
+ "    (6)"
+}], "Text",
+ CellChangeTimes->{{3.687373044632759*^9, 3.6873731218412857`*^9}, {
+  3.687373275365385*^9, 3.687373345879781*^9}, {3.687377409095913*^9, 
+  3.687377470793586*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "where ",
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    SubsuperscriptBox["F", "i", "n"], "=", 
+    RowBox[{"F", 
+     RowBox[{"(", 
+      SubsuperscriptBox["U", "i", "n"], ")"}]}]}], ",", " ", 
+   SubscriptBox["A", 
+    RowBox[{"i", "+", 
+     RowBox[{"1", "/", "2"}]}]]}]]],
+ " is the Jacobian matrix of F evaluated at ",
+ Cell[BoxData[
+  SubscriptBox["U", 
+   RowBox[{"i", "+", 
+    RowBox[{"1", "/", "2"}]}]]]],
+ " and ",
+ Cell[BoxData[
+  SubscriptBox["D", "+"]]],
+ " and ",
+ Cell[BoxData[
+  SubscriptBox["D", "-"]]],
+ " are the standard forward and backward difference operators defined as,"
+}], "Text",
+ CellChangeTimes->{{3.687373361854869*^9, 3.68737343825413*^9}, {
+  3.687373644993999*^9, 3.687373675704607*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    SubscriptBox["D", "\[PlusMinus]"], "w", 
+    RowBox[{"(", "x", ")"}]}], "=", 
+   FractionBox[
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[PlusMinus]", "w"}], 
+      RowBox[{"(", 
+       RowBox[{"x", "\[PlusMinus]", "\[CapitalDelta]x"}], ")"}]}], "-", 
+     RowBox[{"w", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[ImplicitPlus]", 
+         RowBox[{"\[PlusMinus]", "w"}]}], 
+        RowBox[{"(", "x", ")"}]}], ")"}]}]}], "\[CapitalDelta]x"]}]]],
+ ".         (7)"
+}], "Text",
+ CellChangeTimes->{{3.687373679856756*^9, 3.687373782020609*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "Assuming we have ",
+ Cell[BoxData[
+  SubscriptBox["N", "x"]]],
+ " points in the x-direction we with ",
+ Cell[BoxData[
+  RowBox[{"\[CapitalOmega]", "=", 
+   RowBox[{"[", 
+    RowBox[{"0", "  ", "1"}], "]"}]}]]],
+ ", so that ",
+ Cell[BoxData[
+  RowBox[{"1", "\[LessEqual]", "i", "\[LessEqual]", "n"}]]],
+ ". We can impose periodic boundary conditions by,"
+}], "Text",
+ CellChangeTimes->{{3.687373800390128*^9, 3.68737387443286*^9}, {
+  3.687377325202505*^9, 3.687377340958068*^9}, {3.687379506962393*^9, 
+  3.6873795352901697`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   SubscriptBox["U", "1"], "=", 
+   SubscriptBox["U", 
+    SubscriptBox["N", "x"]]}]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.687373879000334*^9, 3.687373892095889*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["Reflective boundary condtions at x=0 are imposed by,", "Text",
+ CellChangeTimes->{{3.687373907624435*^9, 3.687373924918023*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   SubscriptBox["U", "1"], "=", 
+   RowBox[{"-", 
+    SubscriptBox["U", "2"]}]}]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.687373931980661*^9, 3.6873739431653547`*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "Free boundary conditions at ",
+ Cell[BoxData[
+  RowBox[{"x", "=", "0"}]]],
+ " are implemented as,"
+}], "Text",
+ CellChangeTimes->{{3.687373951611806*^9, 3.687373965916465*^9}, {
+  3.687379544592855*^9, 3.687379553552627*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   SubscriptBox["U", "1"], "=", 
+   SubscriptBox["U", "2"]}]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.687373971052506*^9, 3.6873739899946327`*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["\<\
+It should be noted that the above equations describe how these condtions are \
+imposed on the entire vector U, here we implement reflective boundary \
+conditions for (hu) and free boundary conditions for (h). \
+\>", "Text",
+ CellChangeTimes->{{3.68737401252446*^9, 3.687374094526784*^9}, {
+  3.6873795686542788`*^9, 3.68737956981457*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["\<\
+
+\
+\>", "Text",
+ CellChangeTimes->{3.687376314647553*^9},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Lax-Wendroff, Derivation and Implementation for 1D \
+Solver:",
+ FontWeight->"Bold"]], "Text",
+ CellChangeTimes->{{3.687374179389468*^9, 3.687374179721855*^9}, {
+  3.687374479788334*^9, 3.687374500444015*^9}, {3.687376322327283*^9, 
+  3.687376330983522*^9}, {3.6873771892792883`*^9, 3.687377199607098*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Von-Neumann stability analysis:",
+ FontWeight->"Bold"]], "Text",
+ CellChangeTimes->{{3.68737638566923*^9, 3.6873763899730864`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{"u", "=", 
+   RowBox[{
+    SuperscriptBox["e", "at"], 
+    SuperscriptBox["e", "ikx"]}]}]]],
+ " for ",
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"\[PartialD]", "a"}], 
+     RowBox[{"\[PartialD]", "t"}]], "+", 
+    FractionBox[
+     RowBox[{"\[PartialD]", "u"}], 
+     RowBox[{"\[PartialD]", "x"}]]}], "=", "0"}]]],
+ "\n",
+ Cell[BoxData[
+  RowBox[{
+   SuperscriptBox["e", "a\[CapitalDelta]t"], "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"[", 
+      RowBox[{"1", "-", 
+       RowBox[{"2", 
+        SuperscriptBox["r", "2"], "sin", 
+        RowBox[{"(", 
+         FractionBox["\[Phi]\[CapitalDelta]x", "2"], ")"}], "sin", 
+        RowBox[{"(", "k\[CapitalDelta]x", ")"}]}]}], "]"}], "-", 
+     RowBox[{"irsin", 
+      RowBox[{"(", "k\[CapitalDelta]x", ")"}]}]}], "<", "1"}]}]]],
+ "\n\[Implies]r>>1 ?"
+}], "Text",
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "The Lax-Wendroff system of equation(5) is hyperbolic, and has a Jacobian ",
+ Cell[BoxData[
+  RowBox[{"A", 
+   RowBox[{"(", "U", ")"}]}]]],
+ " of ",
+ Cell[BoxData[
+  RowBox[{"F", 
+   RowBox[{"(", "U", ")"}]}]]],
+ " that has real eigenvalues and a full set of eigenvectors. We must first \
+re-write the equations of system (5) so that it is hyperbolic,"
+}], "Text",
+ CellChangeTimes->{{3.687374655624523*^9, 3.687374703675914*^9}, {
+   3.687374751544314*^9, 3.687374787558798*^9}, {3.687374824286648*^9, 
+   3.6873748486425543`*^9}, {3.687375822359857*^9, 3.68737584953379*^9}, 
+   3.687375968986228*^9, {3.6873761183919287`*^9, 3.687376125671567*^9}, {
+   3.68737689319145*^9, 3.6873769186436253`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{"F", 
+    RowBox[{"(", "U", ")"}]}], "=", 
+   RowBox[{
+    RowBox[{"(", GridBox[{
+       {"hu"},
+       {
+        RowBox[{
+         SuperscriptBox["hu", "2"], "+", 
+         RowBox[{
+          FractionBox["1", "2"], 
+          SuperscriptBox["gh", "2"]}]}]}
+      }], ")"}], "=", 
+    RowBox[{"(", GridBox[{
+       {
+        SubscriptBox["u", "2"]},
+       {
+        RowBox[{
+         SubsuperscriptBox["u", "1", "2"], "+", 
+         RowBox[{
+          FractionBox["1", "2"], 
+          SubsuperscriptBox["gu", "1", "2"]}]}]}
+      }], ")"}]}]}]]],
+ ", note ",
+ Cell[BoxData[
+  RowBox[{"u", "=", 
+   RowBox[{
+    RowBox[{"(", GridBox[{
+       {
+        SubscriptBox["u", "1"]},
+       {
+        SubscriptBox["u", "2"]}
+      }], ")"}], "=", 
+    RowBox[{"(", GridBox[{
+       {"h"},
+       {"hu"}
+      }], ")"}]}]}]]],
+ ". "
+}], "Text",
+ CellChangeTimes->{{3.687375154028606*^9, 3.68737527141599*^9}, {
+  3.687375303979001*^9, 3.687375597465919*^9}, {3.687375635317257*^9, 
+  3.687375697903256*^9}, {3.687375798002892*^9, 3.687375806679656*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[Cell[BoxData[
+ RowBox[{
+  RowBox[{"A", 
+   RowBox[{"(", "U", ")"}]}], "=", 
+  RowBox[{
+   RowBox[{"(", GridBox[{
+      {
+       FractionBox[
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["F", "1"]}], 
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["u", "1"]}]], 
+       FractionBox[
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["F", "1"]}], 
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["u", "2"]}]]},
+      {
+       FractionBox[
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["F", "2"]}], 
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["u", "1"]}]], 
+       FractionBox[
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["F", "2"]}], 
+        RowBox[{"\[PartialD]", 
+         SubscriptBox["u", "2"]}]]}
+     }], ")"}], "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", GridBox[{
+        {"0", "1"},
+        {
+         RowBox[{
+          RowBox[{"-", "u"}], "+", "gh"}], 
+         RowBox[{"2", "u"}]}
+       }], ")"}], "\[Implies]", "\[Lambda]"}], "=", 
+    RowBox[{"u", "\[PlusMinus]", 
+     RowBox[{
+      SqrtBox["gh"], "."}]}]}]}]}]]]], "Text",
+ CellChangeTimes->{
+  3.68737581032148*^9, {3.687376209986347*^9, 3.6873762133143883`*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "We can see we now have real eigenvalues (",
+ Cell[BoxData[
+  RowBox[{"\[Lambda]", "=", 
+   RowBox[{"u", "\[PlusMinus]", 
+    SqrtBox["gh"]}]}]]],
+ "), and a full set of eigenvectors. This new modified form becomes our new F."
+}], "Text",
+ CellChangeTimes->{{3.687376016140893*^9, 3.687376030188579*^9}, {
+  3.687376100901349*^9, 3.687376101026401*^9}, {3.687376158709947*^9, 
+  3.687376238779133*^9}, {3.687376929651794*^9, 3.6873769333710003`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Is above enough to explain how we compute the \
+Jacobian matrix?",
+ FontSlant->"Italic",
+ FontColor->RGBColor[1, 0, 0]]], "Text",
+ CellChangeTimes->{{3.687376269468712*^9, 3.687376296095763*^9}, {
+  3.687376840886367*^9, 3.6873768494389477`*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "Choosing the interesting initial conditions, ",
+ Cell[BoxData[
+  RowBox[{"h", "=", 
+   RowBox[{
+    RowBox[{"4", "+", 
+     RowBox[{"sin", 
+      RowBox[{"(", 
+       RowBox[{"2", "\[Pi]x"}], ")"}], " ", "for", "  ", "u"}]}], "=", 
+    "0"}]}]]],
+ " and ",
+ Cell[BoxData[
+  RowBox[{"h", "=", 
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["e", 
+      RowBox[{"-", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         FractionBox[
+          RowBox[{"x", "-", "\[Mu]"}], "\[Sigma]"], ")"}], "2"]}]], " ", 
+     "for", "  ", "u"}], "=", "0"}]}]]],
+ "; a combination of the boundary condtions periodic for both h and hu, and \
+free for h, reflective for uh are computed using a solver written in Python."
+}], "Text",
+ CellChangeTimes->{
+  3.687376381816025*^9, {3.687376416740363*^9, 3.687376441434369*^9}, {
+   3.6873768328651123`*^9, 3.687376834503786*^9}, {3.687376953690159*^9, 
+   3.687377129938504*^9}, {3.6873799649658337`*^9, 3.687379968453743*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Conservation Laws 1D:",
+ FontWeight->"Bold"]], "Text",
+ CellChangeTimes->{{3.687376447956703*^9, 3.687376612018388*^9}, 
+   3.687376831633751*^9, {3.687379659152569*^9, 3.687379665300239*^9}, {
+   3.687379977979463*^9, 3.687379978795559*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "We expect the follwing quantities to be conserved: mass h, momentum or mass \
+velocity, hu and hv, energy ",
+ Cell[BoxData[
+  RowBox[{"0.5", 
+   RowBox[{"(", 
+    RowBox[{
+     SuperscriptBox["hv", "2"], "+", 
+     SuperscriptBox["gh", "2"]}], ")"}]}]]],
+ ". Potential vorticity is only looked at in the 2D solver. "
+}], "Text",
+ CellChangeTimes->{{3.6873796812833242`*^9, 3.6873797672426*^9}, {
+  3.687379858657168*^9, 3.687379883631563*^9}, {3.687379983443397*^9, 
+  3.687380009635694*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["Invesigation of conservation of momentum in solver. \
+Is the momentum conserved, what explanation do we have?",
+ FontColor->RGBColor[1, 0, 0]]], "Text",
+ CellChangeTimes->{{3.687379898170637*^9, 3.687379944479388*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["", "Text",
+ CellChangeTimes->{3.68737637628353*^9},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[StyleBox["2D Solver:",
+ FontWeight->"Bold"]], "Text",
+ CellChangeTimes->{{3.6873771790645514`*^9, 3.6873771794786587`*^9}, {
+  3.687377209935299*^9, 3.687377218876889*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ "The spatial domain for the 2D solver is ",
+ Cell[BoxData[
+  RowBox[{"\[CapitalOmega]", "=", 
+   RowBox[{
+    RowBox[{"[", 
+     RowBox[{"0", "  ", "1"}], "]"}], "\[Times]", 
+    RowBox[{
+     RowBox[{"[", 
+      RowBox[{"0", "  ", "1"}], "]"}], "."}]}]}]]],
+ " To go about solving the system in 2D there are many options, two are \
+presented here. Using the 1D equations of the Lax-Wendroff scheme for system \
+(4) a dimenional split can be implemented by doing a step in x, followed by a \
+step in y: "
+}], "Text",
+ CellChangeTimes->{{3.6873772305986433`*^9, 3.68737728810422*^9}, {
+  3.687377345977542*^9, 3.6873773865418243`*^9}, {3.68737751533405*^9, 
+  3.687377667136088*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[{
+ Cell[BoxData[
+  RowBox[{
+   SubsuperscriptBox["U", 
+    RowBox[{"i", ",", "j"}], "*"], "=", 
+   RowBox[{
+    SubsuperscriptBox["U", 
+     RowBox[{"i", ",", "j"}], "n"], "-", 
+    RowBox[{
+     FractionBox["\[CapitalDelta]t", "2"], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"I", "-", 
+          RowBox[{
+           FractionBox["\[CapitalDelta]t", "\[CapitalDelta]x"], 
+           SubsuperscriptBox["A", 
+            RowBox[{
+             RowBox[{"i", "+", 
+              RowBox[{"1", "/", "2"}]}], ",", "j"}], "n"]}]}], ")"}], 
+        SubsuperscriptBox["D", "+", "x"], 
+        SubsuperscriptBox["F", 
+         RowBox[{"i", ",", "j"}], "n"]}], "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"I", "+", 
+          RowBox[{
+           FractionBox["\[CapitalDelta]t", "\[CapitalDelta]x"], 
+           SubsuperscriptBox["A", 
+            RowBox[{
+             RowBox[{"i", "-", 
+              RowBox[{"1", "/", "2"}]}], ",", "j"}], "n"]}]}], ")"}], 
+        SubsuperscriptBox["D", "_", "x"], 
+        SubsuperscriptBox["F", 
+         RowBox[{"i", ",", "j"}], "n"]}]}], ")"}]}]}]}]]],
+ ",\n",
+ Cell[BoxData[
+  RowBox[{
+   SubsuperscriptBox["U", 
+    RowBox[{"i", ",", "j"}], 
+    RowBox[{"n", "+", "1"}]], "=", 
+   RowBox[{
+    SubsuperscriptBox["U", 
+     RowBox[{"i", ",", "j"}], "*"], "-", 
+    RowBox[{
+     FractionBox["\[CapitalDelta]t", "2"], "B", 
+     RowBox[{"(", 
+      RowBox[{"I", "-", 
+       RowBox[{
+        FractionBox["\[CapitalDelta]t", "\[CapitalDelta]y"], 
+        SubsuperscriptBox["B", 
+         RowBox[{"i", ",", 
+          RowBox[{"j", "+", 
+           RowBox[{"1", "/", "2"}]}]}], "*"]}]}], ")"}], 
+     SubsuperscriptBox["D", "+", "y"], 
+     SubsuperscriptBox["G", 
+      RowBox[{"i", ",", "j"}], "*"]}], "+"}]}]]],
+ Cell[BoxData[
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"I", "+", 
+      RowBox[{
+       FractionBox["\[CapitalDelta]t", "\[CapitalDelta]x"], 
+       SubsuperscriptBox["B", 
+        RowBox[{"i", ",", 
+         RowBox[{"j", "-", 
+          RowBox[{"1", "/", "2"}]}]}], "*"]}]}], ")"}], 
+    SubsuperscriptBox["D", "_", "y"], 
+    SubsuperscriptBox["F", 
+     RowBox[{"i", ",", "j"}], "*"]}], ")"}]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.687377681021619*^9, 3.687377967183742*^9}, {
+  3.687378458671336*^9, 3.6873784629320097`*^9}, {3.6873785009058657`*^9, 
+  3.68737879490375*^9}, {3.687378832877295*^9, 3.687378889632951*^9}, {
+  3.6873789399845867`*^9, 3.687378941886622*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["\<\
+The boundary conditions are prescribed for two cases. The first, periodic for \
+both h, hu, and hv, and 2. The second, and more complicated conditions, free \
+for (h), reflective in the horizontal direction and free in the vertical \
+direction for (uh), and reflective in the vertical direction and free in the \
+horizontal direction for (vh).
+The initial conditions are chosen to be piecewise, \
+\>", "Text",
+ CellChangeTimes->{{3.687378954343451*^9, 3.687379169953108*^9}, {
+  3.687379213397072*^9, 3.68737924630275*^9}, {3.687379322061013*^9, 
+  3.687379360164106*^9}, {3.687379411806164*^9, 3.687379432571393*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell[TextData[Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SubscriptBox["u", "0"], 
+   RowBox[{"(", 
+    RowBox[{"x", ",", "y"}], ")"}]}], "=", 
+  TagBox[GridBox[{
+     {"\[Piecewise]", GridBox[{
+        {
+         RowBox[{"8", ","}], 
+         RowBox[{
+          RowBox[{"if", " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"x", "-", "0.3"}], ")"}], "2"]}], "+", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"y", "-", "0.3"}], ")"}], "2"]}]},
+        {
+         RowBox[{"1", ","}], "otherwise"}
+       },
+       AllowedDimensions->{2, Automatic},
+       Editable->True,
+       GridBoxAlignment->{
+        "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}},
+          "RowsIndexed" -> {}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+         "RowsIndexed" -> {}},
+       GridBoxSpacings->{"Columns" -> {
+           Offset[0.27999999999999997`], {
+            Offset[0.84]}, 
+           Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+           Offset[0.2], {
+            Offset[0.4]}, 
+           Offset[0.2]}, "RowsIndexed" -> {}},
+       Selectable->True]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxItemSize->{
+     "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.35]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   "Piecewise",
+   DeleteWithContents->True,
+   Editable->False,
+   SelectWithContents->True,
+   Selectable->False]}]]]], "Text",
+ CellChangeTimes->{{3.687379249119439*^9, 3.687379317637517*^9}},
+ TextAlignment->Center,
+ FontFamily->"Tahoma",
+ FontSize->28],
+
+Cell["interestingly forming a cylindrical column. ", "Text",
+ CellChangeTimes->{{3.687379362451675*^9, 3.687379400996024*^9}, {
+  3.6873794352097073`*^9, 3.687379437921871*^9}, {3.687379596329158*^9, 
+  3.687379646109757*^9}},
+ FontFamily->"Tahoma",
+ FontSize->28]
+}, Open  ]]
+},
+WindowSize->{1180, 1134},
+WindowMargins->{{1, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+Magnification->0.75,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (December 4, \
+2014)",
+StyleDefinitions->FrontEnd`FileName[{"Utility"}, "Correspondence.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 357, 8, 60, "Section"],
+Cell[940, 32, 261, 5, 35, "Text"],
+Cell[1204, 39, 254, 5, 34, "Text"],
+Cell[1461, 46, 831, 16, 223, "Text"],
+Cell[2295, 64, 571, 12, 220, "Text"],
+Cell[2869, 78, 2266, 76, 179, "Text"],
+Cell[5138, 156, 388, 7, 62, "Text"],
+Cell[5529, 165, 1210, 51, 98, "Text"],
+Cell[6742, 218, 214, 4, 36, "Text"],
+Cell[6959, 224, 824, 29, 47, "Text"],
+Cell[7786, 255, 252, 5, 34, "Text"],
+Cell[8041, 262, 602, 22, 43, "Text"],
+Cell[8646, 286, 544, 10, 95, "Text"],
+Cell[9193, 298, 415, 10, 120, "Text"],
+Cell[9611, 310, 559, 19, 41, "Text"],
+Cell[10173, 331, 634, 24, 42, "Text"],
+Cell[10810, 357, 1373, 43, 41, "Text"],
+Cell[12186, 402, 773, 28, 69, "Text"],
+Cell[12962, 432, 671, 23, 40, "Text"],
+Cell[13636, 457, 586, 18, 66, "Text"],
+Cell[14225, 477, 274, 11, 40, "Text"],
+Cell[14502, 490, 172, 3, 36, "Text"],
+Cell[14677, 495, 272, 11, 36, "Text"],
+Cell[14952, 508, 281, 9, 36, "Text"],
+Cell[15236, 519, 252, 10, 36, "Text"],
+Cell[15491, 531, 386, 8, 66, "Text"],
+Cell[15880, 541, 105, 6, 91, "Text"],
+Cell[15988, 549, 367, 7, 36, "Text"],
+Cell[16358, 558, 193, 4, 36, "Text"],
+Cell[16554, 564, 939, 35, 151, "Text"],
+Cell[17496, 601, 757, 18, 66, "Text"],
+Cell[18256, 621, 1161, 46, 65, "Text"],
+Cell[19420, 669, 1267, 45, 83, "Text"],
+Cell[20690, 716, 505, 12, 66, "Text"],
+Cell[21198, 730, 308, 7, 36, "Text"],
+Cell[21509, 739, 1010, 30, 101, "Text"],
+Cell[22522, 771, 304, 6, 36, "Text"],
+Cell[22829, 779, 548, 15, 71, "Text"],
+Cell[23380, 796, 280, 5, 36, "Text"],
+Cell[23663, 803, 95, 3, 36, "Text"],
+Cell[23761, 808, 224, 5, 36, "Text"],
+Cell[23988, 815, 737, 19, 95, "Text"],
+Cell[24728, 836, 2572, 80, 102, "Text"],
+Cell[27303, 918, 666, 12, 150, "Text"],
+Cell[27972, 932, 2002, 59, 63, "Text"],
+Cell[29977, 993, 264, 5, 36, "Text"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

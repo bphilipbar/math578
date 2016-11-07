@@ -1,0 +1,209 @@
+%% AMS-LaTeX Created with the Wolfram Language for Students - Personal Use Only : www.wolfram.com
+
+\documentclass{article}
+\usepackage{amsmath, amssymb, graphics, setspace}
+
+\newcommand{\mathsym}[1]{{}}
+\newcommand{\unicode}[1]{{}}
+
+\newcounter{mathematicapage}
+\begin{document}
+
+\section*{Numerical Solutions of Shallow Water Equations}
+
+Math 578 * University of New Mexico * October 2016
+
+Students: Oleksii Beznosov $\&$ Brad Philipbar
+
+\pmb{ Abstract:} \\
+Systems of Shallow Water Equations (SSWE) model the propagation of disturbances in water and other incompressible fluids and are used to describe
+the dynamics of important phenomenon. Models of the 2D type constitute one of the widest classes of models studied in engineering. The underlying
+assumption is that the depth of the fluid is small compared to the wave length of the disturbance. Initially a look at conservation in the absence
+of the Coriolis force will be describe. Specifying either periodic boundary conditions, or free boundary conditions for h, and reflective boundary
+conditions for uh and uv. 
+
+\\
+\pmb{ Introduction:} \\
+Systems of Shallow Water Equations (SSWE) model the propagation of disturbances in water and other incompressible fluids and are used to describe
+the dynamics of important phenomenon like tsunami.The underlying assumption is that the depth of the fluid is small compared to the wave length of
+the disturbance. The conservative form of the shallow water equations is,
+
+\(\begin{array}{ll}
+ \{ & 
+\begin{array}{ll}
+ \frac{\partial h}{\partial t}+\frac{\partial (\text{hu})}{\partial x}+\frac{\partial (\text{hv})}{\partial y}=0\frac{\partial (\text{hu})}{\partial
+t}+\frac{\partial \left(\text{hu}^2+\frac{1}{2}\text{gh}^2\right)}{\partial x}+\frac{\partial (\text{huv})}{\partial y}=\text{fhv}\frac{\partial
+(\text{hv})}{\partial t}+\frac{\partial (\text{huv})}{\partial x}+\frac{\partial \left(\text{hv}^2+\frac{1}{2}\text{gh}^2\right)}{\partial y}=-\text{fhu}
+& \text{Governing} \text{Equations}(1) \\
+\end{array}
+ \\
+\end{array}\)
+
+Here h$>$0 is the fluid height, u and v are the horizontal and vertical velocities, g is the acceleration due to gravity (9.8m/s${}^{\wedge}$2 on
+Earth) and f is the Coriolis force. We let
+
+\(U=\left(
+\begin{array}{c}
+ h \\
+ \text{hu}\text{hv} \\
+\end{array}
+\right), F(U)=\left(
+\begin{array}{c}
+ \text{hu} \\
+ \text{hu}^2+\frac{1}{2}\text{gh}^2 \\
+ \text{huv} \\
+\end{array}
+\right), G(U)=\left(
+\begin{array}{c}
+ \text{hv} \\
+ \text{huv} \\
+ \text{hv}^2+\frac{1}{2}\text{hg}^2 \\
+\end{array}
+\right), S(u)=\left(
+\begin{array}{c}
+ 0 \\
+ \text{fhv} \\
+ -\text{fhu} \\
+\end{array}
+\right)\), { } { }(2)
+
+to rewrite the equations in compact form,
+
+\(\frac{\partial U}{\partial t}+\frac{\partial F(U)}{\partial x}+\frac{\partial G(U)}{\partial y}=S(U).\)$\quad \quad \quad \quad $(3) { }
+
+In the absense of the Coriolis force, we get the standard form of the conservtion law.
+
+\(\frac{\partial U}{\partial t}+\frac{\partial F(U)}{\partial x}+\frac{\partial G(U)}{\partial y}=0.\)$\quad \quad \quad \quad $(4)
+
+We specify either periodic boundary condtions, or {``}free{''} boundary conditions for h and {``}reflective{''} boundary for uh and uv. Free boundary
+conditions means the boundary exerts no stress while reflective boundary conditions means the boundary behaves like a mirror. { }
+
+Discretization:\\
+We solve the shallow water equations using the Lax-Wendroff method and Richmeyer{'}s two step method. The Lax-Wendroff shallow water equations in
+1D are, 
+
+\(\frac{\partial U}{\partial t}+\frac{\partial F(U)}{\partial x}=0.\) { } { } (5)
+
+where \(U=[h,\text{hu}]^T\) and \(F(U)=\left[\text{hu}, \text{hu}^2+\frac{1}{2}\text{gh}^2\right]^T\). The Lax-Wendroff method for the system (5)
+is
+
+\(U_i^{n+1}=U_i^n-\frac{\text{$\Delta $t}}{2}\left(\left(I-\frac{\text{$\Delta $t}}{\text{$\Delta $x}}A_{i+1/2}^n\right)\left(D_+F_i^n\right)+\left(\left(I+\frac{\text{$\Delta
+$t}}{\text{$\Delta $x}}A_{i-1/2}^n\right)\left(D_{\_}F_i^n\right)\right)\right.\) { } { }(6)
+
+where \(F_i^n=F\left(U_i^n\right), A_{i+1/2}\) is the Jacobian matrix of F evaluated at \(U_{i+1/2}\) and \(D_+\) and \(D_-\) are the standard forward
+and backward difference operators defined as,
+
+\(D_{\pm }w(x)=\frac{\pm w(x\pm \text{$\Delta $x})-w(\unicode{f39e}\pm w(x))}{\text{$\Delta $x}}\). { } { } { } { } (7)
+
+Assuming we have \(N_x\) points in the x-direction we with \(\Omega =[0\text{  }1]\), so that \(1\leq i\leq n\). We can impose periodic boundary
+conditions by,
+
+\(U_1=U_{N_x}\).
+
+Reflective boundary condtions at x=0 are imposed by,
+
+\(U_1=-U_2\).
+
+Free boundary conditions at \(x=0\) are implemented as,
+
+\(U_1=U_2\).
+
+It should be noted that the above equations describe how these conditions are imposed on the entire vector U, here we implement reflective boundary
+conditions for hu and free boundary conditions for (h). 
+
+\\
+
+
+\pmb{ Lax-Wendroff, Derivation and Implementation for 1D Solver:}
+
+\pmb{ Von-Neumann stability analysis:}
+
+\(u=e^{\text{at}}e^{\text{ikx}}\) for \(\frac{\partial a}{\partial t}+\frac{\partial u}{\partial x}=0\)\\
+\(e^{\text{a$\Delta $t}}=\left[1-2r^2\sin \left(\frac{\text{$\phi \Delta $x}}{2}\right)\sin (\text{k$\Delta $x})\right]-\text{irsin}(\text{k$\Delta
+$x})<1\)\\
+$\Rightarrow $r$>>$1 ?
+
+The Lax-Wendroff system of equation(5) is hyperbolic, and has a Jacobian \(A(U)\) of \(F(U)\) that has real eigenvalues and a full set of eigenvectors.
+We must first re-write the equations of system (5) so that it is hyperbolic,
+
+\(F(U)=\left(
+\begin{array}{c}
+ \text{hu} \\
+ \text{hu}^2+\frac{1}{2}\text{gh}^2 \\
+\end{array}
+\right)=\left(
+\begin{array}{c}
+ u_2 \\
+ u_1^2+\frac{1}{2}\text{gu}_1^2 \\
+\end{array}
+\right)\), note \(u=\left(
+\begin{array}{c}
+ u_1 \\
+ u_2 \\
+\end{array}
+\right)=\left(
+\begin{array}{c}
+ h \\
+ \text{hu} \\
+\end{array}
+\right)\). 
+
+\(A(U)=\left(
+\begin{array}{cc}
+ \frac{\partial F_1}{\partial u_1} & \frac{\partial F_1}{\partial u_2} \\
+ \frac{\partial F_2}{\partial u_1} & \frac{\partial F_2}{\partial u_2} \\
+\end{array}
+\right)=\left(
+\begin{array}{cc}
+ 0 & 1 \\
+ -u+\text{gh} & 2u \\
+\end{array}
+\right)\Rightarrow \lambda =u\pm \sqrt{\text{gh}}.\)
+
+We can see we now have real eigenvalues (\(\lambda =u\pm \sqrt{\text{gh}}\)), and a full set of eigenvectors. This new modified form becomes our
+new F.
+
+\textit{ Is above enough to explain how we compute the Jacobian matrix?}
+
+Choosing the interesting initial conditions, \(h=4+\sin (2\text{$\pi $x}) \text{for}\text{  }u=0\) and \(h=e^{-\left(\frac{x-\mu }{\sigma }\right)^2}
+\text{for}\text{  }u=0\); a combination of the boundary condtions periodic for both h and hu, and free for h, reflective for uh are computed using
+a solver written in Python.
+
+\pmb{ Conservation Laws 1D:}
+
+We expect the following quantities to be conserved: mass h, momentum or mass velocity, hu and hv, energy \(0.5\left(\text{hv}^2+\text{gh}^2\right)\).
+Potential vorticity is only looked at in the 2D solver. 
+
+Invesigation of conservation of momentum in solver. Is the momentum conserved, what explanation do we have?
+
+
+
+\pmb{ 2D Solver:}
+
+The spatial domain for the 2D solver is \(\Omega =[0\text{  }1]\times [0\text{  }1].\) To go about solving the system in 2D there are many options,
+two are presented here. Using the 1D equations of the Lax-Wendroff scheme for system (4) a dimenional split can be implemented by doing a step in
+x, followed by a step in y: 
+
+\(U_{i,j}^*=U_{i,j}^n-\frac{\text{$\Delta $t}}{2}\left(\left(I-\frac{\text{$\Delta $t}}{\text{$\Delta $x}}A_{i+1/2,j}^n\right)D_+^xF_{i,j}^n+\left(I+\frac{\text{$\Delta
+$t}}{\text{$\Delta $x}}A_{i-1/2,j}^n\right)D_{\_}^xF_{i,j}^n\right)\),\\
+\(U_{i,j}^{n+1}=U_{i,j}^*-\frac{\text{$\Delta $t}}{2}B\left(I-\frac{\text{$\Delta $t}}{\text{$\Delta $y}}B_{i,j+1/2}^*\right)D_+^yG_{i,j}^*+\)\(\left.\left(I+\frac{\text{$\Delta
+$t}}{\text{$\Delta $x}}B_{i,j-1/2}^*\right)D_{\_}^yF_{i,j}^*\right)\).
+
+The boundary conditions are prescribed for two cases. The first, periodic for both h, hu, and hv, and 2. The second, and more complicated conditions,
+free for (h), reflective in the horizontal direction and free in the vertical direction for (uh), and reflective in the vertical direction and free
+in the horizontal direction for (vh).\\
+The initial conditions are chosen to be piecewise, 
+
+\(u_0(x,y)=
+\begin{array}{ll}
+ \{ & 
+\begin{array}{ll}
+ 8, & \text{if} (x-0.3)^2+(y-0.3)^2 \\
+ 1, & \text{otherwise} \\
+\end{array}
+ \\
+\end{array}\)
+
+interestingly forming a cylindrical column. 
+
+\end{document}
